@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import WelcomeView from '../views/WelcomeView.vue';
+import WelcomeView from '../components/WelcomeView.vue';
 
 const routes = [
   {
@@ -7,7 +7,6 @@ const routes = [
     name: 'Welcome',
     component: WelcomeView,
   },
-  // Weitere Routen hier hinzufügen
 ];
 
 const router = createRouter({
