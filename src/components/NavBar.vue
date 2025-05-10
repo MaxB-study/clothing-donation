@@ -1,18 +1,16 @@
 <template>
-    <nav class="bg-blue-600 text-white p-4 shadow-md">
+  <nav class="bg-gray-800 p-4">
       <div class="container mx-auto flex justify-between items-center">
-        <h1 class="text-xl font-bold">Kleiderspende</h1>
-        <ul class="flex space-x-4">
-          <li><a href="/" class="hover:underline">Start</a></li>
-          <li><a href="/formular" class="hover:underline">Spendenformular</a></li>
-        </ul>
+          <div class="text-white font-bold">Kleiderspende</div>
+          <div class="space-x-10">
+              <router-link to="/" class="text-white hover:text-gray-300">Home</router-link>
+              <router-link to="/spenden" class="text-white hover:text-gray-300">Spenden</router-link>
+              <router-link to="/about" class="text-white hover:text-gray-300">Über uns</router-link>
+          </div>
       </div>
-    </nav>
-  </template>
-  
-  <script>
-  export default {
-    name: 'NavBar',
-  };
-  </script>
+  </nav>
+</template>
+
+<script setup>
+</script>
   
