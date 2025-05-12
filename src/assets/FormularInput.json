@@ -1,0 +1,68 @@
+{
+  "formFields": [
+    {
+      "id": "firstName",
+      "label": "Vorname",
+      "type": "text",
+      "required": true,
+      "placeholder": "Ihr Vorname"
+    },
+    {
+      "id": "lastName",
+      "label": "Nachname",
+      "type": "text",
+      "required": true,
+      "placeholder": "Ihr Nachname"
+    },
+    {
+      "id": "clothingType",
+      "label": "Art der Kleidung (Mehrfachauswahl möglich)",
+      "type": "multiselect",
+      "required": true,
+      "options": [
+        "Oberteile",
+        "Hosen",
+        "Jacken & Mäntel",
+        "Schuhe",
+        "Accessoires",
+        "Kinderkleidung"
+      ]
+    },
+    {
+      "id": "crisisArea",
+      "label": "Krisengebiet",
+      "type": "select",
+      "required": true,
+      "options": [
+        "Ukraine",
+        "Demokratische Republik Kongo",
+        "Syrien",
+        "Jemen"
+      ]
+    },
+    {
+      "id": "date",
+      "label": "Datum der Übergabe",
+      "type": "date",
+      "required": true
+    },
+    {
+      "id": "time",
+      "label": "Uhrzeit der Übergabe (7:30 - 18:00 Uhr)",
+      "type": "time",
+      "required": true
+    },
+    {
+      "id": "location",
+      "label": "Übergabeort",
+      "type": "select",
+      "required": true,
+      "options": [
+        "Berlin - Hauptzentrale",
+        "Hamburg - Sammelstelle Nord",
+        "München - Sammelstelle Süd",
+        "Köln - Sammelstelle West"
+      ]
+    }
+  ]
+}

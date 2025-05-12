@@ -18,7 +18,7 @@
         <p class="text-lg">
           Die aktuellen globalen Krisen haben Millionen von Menschen in schwierige
           Situationen gebracht. Von den Konflikten in der Ukraine bis hin zu den
-          humanitären Notlagen in der Demokratischen Republik Kongo 1, die Not ist
+          humanitären Notlagen in der Demokratischen Republik Kongo, die Not ist
           groß und die Hilfe dringend erforderlich. Ihre Spende kann dazu
           beitragen, das Leben von Menschen in diesen Krisengebieten zu
           verbessern.
