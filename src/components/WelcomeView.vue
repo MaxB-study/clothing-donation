@@ -3,7 +3,7 @@
     <!-- Linke Spalte mit Text -->
     <div class="flex-1 pr-11">
       <div>
-        <h1 class="text-3xl font-bold mb-4">Willkommen bei Clothing-Donation!</h1>
+        <h1 class="text-3xl font-bold mb-4">Willkommen bei Clothing-Donation e.V.!</h1>
 
         <p class="text-lg">
           In einer Welt, die von Herausforderungen und Krisen geprägt ist, ist es

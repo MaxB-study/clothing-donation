@@ -9,9 +9,11 @@
           <section class="mb-8">
             <h2 class="text-2xl font-semibold mb-4">Unsere Geschichte</h2>
             <p class="mb-4 text-gray-700">
-              Clothing-Donation wurde 2020 als Reaktion auf die zunehmenden globalen Krisen gegründet. 
-              Was als kleine Initiative begann, hat sich zu einer bedeutenden gemeinnützigen Organisation entwickelt, 
-              die Menschen in Krisengebieten weltweit mit dringend benötigter Kleidung versorgt.
+              Clothing-Donation e.V. wurde 2020 von einer Gruppe engagierter Menschen gegründet, 
+              die sich zum Ziel gesetzt haben, Menschen in Krisengebieten zu unterstützen. 
+              Was als kleine Bürgerinitiative begann, hat sich zu einem etablierten 
+              gemeinnützigen Verein entwickelt, der Menschen in Krisengebieten weltweit 
+              mit dringend benötigter Kleidung versorgt.
             </p>
           </section>
 
@@ -46,7 +48,7 @@
           >
           
           <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
-            <h3 class="text-xl font-semibold mb-4">Unsere Erfolge</h3>
+            <h3 class="text-xl font-semibold mb-4">Unsere Erfolge als Verein</h3>
             <div class="space-y-4">
               <div>
                 <p class="text-2xl font-bold text-indigo-600">50.000+</p>

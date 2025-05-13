@@ -5,19 +5,21 @@
     <section class="mb-8">
       <h2 class="text-xl font-semibold mb-4">Angaben gemäß § 5 TMG</h2>
       <p class="mb-4">
-        Clothing-Donation gGmbH<br>
+        Clothing-Donation e.V.<br>
         Spendengasse 123<br>
         10115 Berlin
       </p>
       
       <p class="mb-4">
-        Handelsregister: HRB 123456<br>
+        Vereinsregister: VR 12345<br>
         Registergericht: Amtsgericht Berlin-Charlottenburg
       </p>
 
       <p class="mb-4">
-        Vertreten durch:<br>
-        Max Mustermann (Geschäftsführer)
+        Vertreten durch den Vorstand:<br>
+        Max Mustermann (1. Vorsitzender)<br>
+        Maria Schmidt (2. Vorsitzende)<br>
+        Thomas Weber (Schatzmeister)
       </p>
     </section>
 

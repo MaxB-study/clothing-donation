@@ -1,9 +1,12 @@
 <template>
   <div class="max-w-2xl mx-auto p-8">
-    <h1 class="text-3xl font-bold mb-8">Kleiderspende registrieren</h1>
-    
     <form @submit.prevent="submitForm" class="space-y-6">
-      <div v-for="field in formFields" :key="field.id" class="space-y-2">
+      <div 
+        v-for="field in formFields" 
+        :key="field.id" 
+        class="space-y-2"
+        v-show="shouldShowField(field)"
+      >
         <label :for="field.id" class="block text-sm font-medium text-gray-700">
           {{ field.label }}
         </label>
@@ -91,6 +94,31 @@
             </div>
           </div>
         </div>
+
+        <!-- Toggle Input -->
+        <div v-if="field.type === 'toggle'" class="flex items-center">
+          <button
+            type="button"
+            :id="field.id"
+            @click="formData[field.id] = !formData[field.id]"
+            :class="[
+              formData[field.id] ? 'bg-indigo-600' : 'bg-gray-200',
+              'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out'
+            ]"
+            role="switch"
+            :aria-checked="formData[field.id]"
+          >
+            <span
+              :class="[
+                formData[field.id] ? 'translate-x-5' : 'translate-x-0',
+                'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out'
+              ]"
+            />
+          </button>
+          <span class="ml-3 text-sm text-gray-700">
+            {{ formData[field.id] ? field.options.on : field.options.off }}
+          </span>
+        </div>
       </div>
 
       <div class="pt-5">
@@ -114,11 +142,18 @@ const router = useRouter()
 const formFields = ref([])
 const formData = ref({})
 
+const shouldShowField = (field) => {
+  if (!field.showWhen) return true
+  return eval(field.showWhen.replace('handovertype', formData.value.handovertype))
+}
+
 onMounted(() => {
   formFields.value = formularInput.formFields
   formFields.value.forEach(field => {
     if (field.type === 'multiselect') {
       formData.value[field.id] = []
+    } else if (field.type === 'toggle') {
+      formData.value[field.id] = false
     } else {
       formData.value[field.id] = ''
     }

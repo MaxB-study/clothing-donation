@@ -54,6 +54,16 @@
     </section>
 
     <section class="mb-8">
+      <h2 class="text-xl font-semibold mb-4">Verantwortlicher</h2>
+      <p class="mb-4">
+        Clothing-Donation e.V.<br>
+        Spendengasse 123<br>
+        10115 Berlin<br>
+        vertreten durch den Vorstand
+      </p>
+    </section>
+
+    <section class="mb-8">
       <h2 class="text-xl font-semibold mb-4">5. Speicherdauer</h2>
       <p class="mb-4">
         Wir speichern Ihre Daten nur so lange, wie dies für die Abwicklung Ihrer Spende und die Erfüllung gesetzlicher 

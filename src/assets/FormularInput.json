@@ -41,6 +41,16 @@
       ]
     },
     {
+      "id": "handovertype",
+      "label": "Übergabeart",
+      "type": "toggle",
+      "required": false,
+      "options": {
+        "off": "Übergabe an Abgabestelle",
+        "on": "Abholung durch Sammelfahrzeug"
+      }
+    },
+    {
       "id": "date",
       "label": "Datum der Übergabe",
       "type": "date",
@@ -57,12 +67,21 @@
       "label": "Übergabeort",
       "type": "select",
       "required": true,
+      "showWhen": "!handovertype",
       "options": [
         "Berlin - Hauptzentrale",
         "Hamburg - Sammelstelle Nord",
         "München - Sammelstelle Süd",
         "Köln - Sammelstelle West"
       ]
+    },
+    {
+      "id": "pickupAddress",
+      "label": "Abholadresse",
+      "type": "text",
+      "required": true,
+      "showWhen": "handovertype",
+      "placeholder": "Straße, Hausnummer, PLZ, Ort"
     }
   ]
 }
