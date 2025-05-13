@@ -5,8 +5,8 @@
         <p>&copy; 2025 Clothing-Donation. Alle Rechte vorbehalten.</p>
       </div>
       <div class="space-x-4">
-        <a href="#" class="text-white hover:text-gray-300">Datenschutz</a>
-        <a href="#" class="text-white hover:text-gray-300">Impressum</a>
+        <router-link to="/Datenschutz" class="text-white hover:text-gray-300">Datenschutz</router-link>
+        <router-link to="/Impressum" class="text-white hover:text-gray-300">Impressum</router-link>
       </div>
     </div>
   </footer>

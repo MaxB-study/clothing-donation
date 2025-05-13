@@ -8,7 +8,7 @@
           <div class="space-x-10">
               <router-link to="/" class="text-white hover:text-gray-300">Home</router-link>
               <router-link to="/spenden" class="text-white hover:text-gray-300">Spenden</router-link>
-              <router-link to="/about" class="text-white hover:text-gray-300">Über uns</router-link>
+              <router-link to="/ueber-uns" class="text-white hover:text-gray-300">Über uns</router-link>
           </div>
       </div>
   </nav>
