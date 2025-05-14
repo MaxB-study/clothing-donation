@@ -1,6 +1,15 @@
 <template>
   <div class="max-w-2xl mx-auto p-8">
     <form @submit.prevent="validateAndSubmit" class="space-y-6">
+      <!-- Add a new section for pickup address before the v-for loop -->
+      <div v-if="formData.handovertype" class="mb-6">
+        <h3 class="text-lg font-medium text-gray-900 mb-2">Abholadresse</h3>
+        <p v-if="nearbyLocation" class="text-sm text-indigo-600 mb-4">
+          {{ nearbyLocation }}
+        </p>
+      </div>
+
+      <!-- In the v-for loop, remove the heading section and keep only the inputs -->
       <div 
         v-for="field in formFields" 
         :key="field.id" 
@@ -134,37 +143,36 @@
           </option>
         </select>
 
-        <!-- Text Inputs for Pickup Address -->
-        <template v-if="formData.handovertype">
-          <input
-            v-if="field.id === 'pickupStreet'"
-            type="text"
-            :id="field.id"
-            v-model="formData[field.id]"
-            :required="formData.handovertype"
-            :placeholder="field.placeholder"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-          >
-          <input
-            v-if="field.id === 'pickupZip'"
-            type="text"
-            :id="field.id"
-            v-model="formData[field.id]"
-            :required="formData.handovertype"
-            :placeholder="field.placeholder"
-            pattern="[0-9]{5}"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-          >
-          <input
-            v-if="field.id === 'pickupCity'"
-            type="text"
-            :id="field.id"
-            v-model="formData[field.id]"
-            :required="formData.handovertype"
-            :placeholder="field.placeholder"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-          >
-        </template>
+        <!-- Pickup Address Inputs without the heading -->
+        <input
+          v-if="field.id === 'pickupStreet' && formData.handovertype"
+          type="text"
+          :id="field.id"
+          v-model="formData[field.id]"
+          :required="formData.handovertype"
+          :placeholder="field.placeholder"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+        >
+        <input
+          v-if="field.id === 'pickupZip' && formData.handovertype"
+          type="text"
+          :id="field.id"
+          v-model="formData[field.id]"
+          :required="formData.handovertype"
+          :placeholder="field.placeholder"
+          pattern="[0-9]{5}"
+          @input="handlePlzInput"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+        >
+        <input
+          v-if="field.id === 'pickupCity' && formData.handovertype"
+          type="text"
+          :id="field.id"
+          v-model="formData[field.id]"
+          :required="formData.handovertype"
+          :placeholder="field.placeholder"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+        >
       </div>
 
       <div class="pt-5">
@@ -197,6 +205,42 @@ const allowedTimes = [
 
 const validateTime = (time) => {
   return allowedTimes.includes(time)
+}
+
+// First, add this helper function to extract PLZ regions and create a mapping
+const getPlzRegion = (plz) => plz.substring(0, 2)
+
+const abgabestellenPLZ = {
+  '10': 'Berlin',
+  '20': 'Hamburg',
+  '80': 'München',
+  '50': 'Köln'
+}
+
+// Add this function to check for nearby locations
+const checkNearbyLocation = (plz) => {
+  const region = getPlzRegion(plz)
+  if (abgabestellenPLZ[region]) {
+    return `Hinweis: In Ihrer Nähe befindet sich unsere Abgabestelle in ${abgabestellenPLZ[region]}.`
+  }
+  return null
+}
+
+const nearbyLocation = ref('')
+
+// Modify the existing input handler for PLZ
+const handlePlzInput = (event) => {
+  const plz = event.target.value
+  if (plz.length === 5) {
+    const nearbyMessage = checkNearbyLocation(plz)
+    if (nearbyMessage) {
+      nearbyLocation.value = nearbyMessage
+    } else {
+      nearbyLocation.value = ''
+    }
+  } else {
+    nearbyLocation.value = ''
+  }
 }
 
 const validateAndSubmit = () => {

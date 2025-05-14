@@ -64,15 +64,15 @@
     },
     {
       "id": "location",
-      "label": "Übergabeort",
+      "label": "Abgabestelle",
       "type": "select",
       "required": true,
       "showWhen": "!handovertype",
       "options": [
-        "Berlin - Hauptzentrale",
-        "Hamburg - Sammelstelle Nord",
-        "München - Sammelstelle Süd",
-        "Köln - Sammelstelle West"
+        "Berlin - Hauptzentrale, Alexanderplatz 1, 10178 Berlin",
+        "Hamburg - Sammelstelle Nord, Speicherstadt 42, 20457 Hamburg",
+        "München - Sammelstelle Süd, Leopoldstraße 123, 80802 München",
+        "Köln - Sammelstelle West, Hohenzollernring 88, 50672 Köln"
       ]
     },
     {
