@@ -39,15 +39,30 @@
             </dd>
           </div>
           <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Übergabeart</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {{ formData?.handovertype ? 'Abholung durch Sammelfahrzeug' : 'Übergabe an Abgabestelle' }}
+            </dd>
+          </div>
+          <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt class="text-sm font-medium text-gray-500">Übergabetermin</dt>
             <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
               {{ formatDate(formData?.date) }} um {{ formData?.time }} Uhr
             </dd>
           </div>
-          <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <!-- Conditional rendering based on handovertype -->
+          <div v-if="!formData?.handovertype" class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt class="text-sm font-medium text-gray-500">Übergabeort</dt>
             <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
               {{ formData?.location }}
+            </dd>
+          </div>
+
+          <div v-if="formData?.handovertype" class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Abholadresse</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {{ formData.pickupStreet }}<br>
+              {{ formData.pickupZip }} {{ formData.pickupCity }}
             </dd>
           </div>
         </dl>
@@ -66,7 +81,18 @@ const formData = ref({})
 onMounted(() => {
   if (route.query.data) {
     try {
-      formData.value = JSON.parse(route.query.data)
+      const parsedData = JSON.parse(route.query.data)
+      // Clear appropriate fields based on handovertype
+      if (parsedData.handovertype) {
+        // If pickup is selected, clear location
+        parsedData.location = ''
+      } else {
+        // If dropoff is selected, clear pickup address fields
+        parsedData.pickupStreet = ''
+        parsedData.pickupZip = ''
+        parsedData.pickupCity = ''
+      }
+      formData.value = parsedData
     } catch (e) {
       console.error('Fehler beim Parsen der Formulardaten:', e)
       formData.value = {}

@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-2xl mx-auto p-8">
-    <form @submit.prevent="submitForm" class="space-y-6">
+    <form @submit.prevent="validateAndSubmit" class="space-y-6">
       <div 
         v-for="field in formFields" 
         :key="field.id" 
@@ -13,7 +13,7 @@
 
         <!-- Text Input -->
         <input
-          v-if="field.type === 'text'"
+          v-if="field.type === 'text' && !field.id.startsWith('pickup')"
           :type="field.type"
           :id="field.id"
           v-model="formData[field.id]"
@@ -24,7 +24,7 @@
 
         <!-- Select Input -->
         <select
-          v-if="field.type === 'select'"
+          v-if="field.type === 'select' && field.id !== 'location'"
           :id="field.id"
           v-model="formData[field.id]"
           :required="field.required"
@@ -119,6 +119,52 @@
             {{ formData[field.id] ? field.options.on : field.options.off }}
           </span>
         </div>
+
+        <!-- Select Input for Location -->
+        <select
+          v-if="field.type === 'select' && field.id === 'location'"
+          :id="field.id"
+          v-model="formData[field.id]"
+          :required="!formData.handovertype"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+        >
+          <option value="">Bitte wählen</option>
+          <option v-for="option in field.options" :key="option" :value="option">
+            {{ option }}
+          </option>
+        </select>
+
+        <!-- Text Inputs for Pickup Address -->
+        <template v-if="formData.handovertype">
+          <input
+            v-if="field.id === 'pickupStreet'"
+            type="text"
+            :id="field.id"
+            v-model="formData[field.id]"
+            :required="formData.handovertype"
+            :placeholder="field.placeholder"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          >
+          <input
+            v-if="field.id === 'pickupZip'"
+            type="text"
+            :id="field.id"
+            v-model="formData[field.id]"
+            :required="formData.handovertype"
+            :placeholder="field.placeholder"
+            pattern="[0-9]{5}"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          >
+          <input
+            v-if="field.id === 'pickupCity'"
+            type="text"
+            :id="field.id"
+            v-model="formData[field.id]"
+            :required="formData.handovertype"
+            :placeholder="field.placeholder"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          >
+        </template>
       </div>
 
       <div class="pt-5">
@@ -142,6 +188,52 @@ const router = useRouter()
 const formFields = ref([])
 const formData = ref({})
 
+const allowedTimes = [
+  '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', 
+  '10:30', '11:00', '11:30', '12:00', '12:30', '13:00',
+  '13:30', '14:00', '14:30', '15:00', '15:30', '16:00',
+  '16:30', '17:00', '17:30', '18:00'
+]
+
+const validateTime = (time) => {
+  return allowedTimes.includes(time)
+}
+
+const validateAndSubmit = () => {
+  // Validate based on handovertype
+  if (formData.value.handovertype) {
+    // Validate pickup address fields when handovertype is true
+    if (!formData.value.pickupStreet || !formData.value.pickupZip || !formData.value.pickupCity) {
+      alert('Bitte füllen Sie alle Adressfelder aus')
+      return
+    }
+    if (!formData.value.pickupZip.match(/^[0-9]{5}$/)) {
+      alert('Bitte geben Sie eine gültige PLZ ein (5 Ziffern)')
+      return
+    }
+    // Clear location field
+    formData.value.location = ''
+  } else {
+    // Validate location field when handovertype is false
+    if (!formData.value.location) {
+      alert('Bitte wählen Sie einen Übergabeort aus')
+      return
+    }
+    // Clear pickup address fields
+    formData.value.pickupStreet = ''
+    formData.value.pickupZip = ''
+    formData.value.pickupCity = ''
+  }
+
+  // Continue with form submission
+  router.push({
+    name: 'Success',
+    query: { 
+      data: JSON.stringify(formData.value)
+    }
+  })
+}
+
 const shouldShowField = (field) => {
   if (!field.showWhen) return true
   return eval(field.showWhen.replace('handovertype', formData.value.handovertype))
@@ -159,32 +251,4 @@ onMounted(() => {
     }
   })
 })
-
-const allowedTimes = [
-  '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', 
-  '10:30', '11:00', '11:30', '12:00', '12:30', '13:00',
-  '13:30', '14:00', '14:30', '15:00', '15:30', '16:00',
-  '16:30', '17:00', '17:30', '18:00'
-]
-
-
-const validateTime = (time) => {
-  return allowedTimes.includes(time)
-}
-
-const submitForm = () => {
-  const timeField = formFields.value.find(f => f.type === 'time')
-  if (timeField && !validateTime(formData.value[timeField.id])) {
-    alert('Bitte wählen Sie eine gültige Uhrzeit aus')
-    return
-  }
-
-  // Verwenden Sie query statt params für die Datenübergabe
-  router.push({
-    name: 'Success',
-    query: { 
-      data: JSON.stringify(formData.value)
-    }
-  })
-}
 </script>

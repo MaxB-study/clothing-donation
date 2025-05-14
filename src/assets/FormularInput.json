@@ -82,6 +82,31 @@
       "required": true,
       "showWhen": "handovertype",
       "placeholder": "Straße, Hausnummer, PLZ, Ort"
+    },
+    {
+      "id": "pickupStreet",
+      "label": "Straße & Hausnummer",
+      "type": "text",
+      "required": true,
+      "showWhen": "handovertype",
+      "placeholder": "Beispielstraße 123"
+    },
+    {
+      "id": "pickupZip",
+      "label": "PLZ",
+      "type": "text",
+      "required": true,
+      "showWhen": "handovertype",
+      "placeholder": "12345",
+      "pattern": "[0-9]{5}"
+    },
+    {
+      "id": "pickupCity",
+      "label": "Stadt",
+      "type": "text",
+      "required": true,
+      "showWhen": "handovertype",
+      "placeholder": "Berlin"
     }
   ]
 }
