@@ -33,12 +33,7 @@
       "label": "Krisengebiet",
       "type": "select",
       "required": true,
-      "options": [
-        "Ukraine",
-        "Demokratische Republik Kongo",
-        "Syrien",
-        "Jemen"
-      ]
+      "options": ["Ukraine", "Demokratische Republik Kongo", "Syrien", "Jemen"]
     },
     {
       "id": "handovertype",
@@ -75,14 +70,7 @@
         "Köln - Sammelstelle West, Hohenzollernring 88, 50672 Köln"
       ]
     },
-    {
-      "id": "pickupAddress",
-      "label": "Abholadresse",
-      "type": "text",
-      "required": true,
-      "showWhen": "handovertype",
-      "placeholder": "Straße, Hausnummer, PLZ, Ort"
-    },
+
     {
       "id": "pickupStreet",
       "label": "Straße & Hausnummer",
@@ -94,6 +82,8 @@
     {
       "id": "pickupZip",
       "label": "PLZ",
+      "maxLength": 5,
+      "minLength": 5,
       "type": "text",
       "required": true,
       "showWhen": "handovertype",
