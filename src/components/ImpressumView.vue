@@ -34,7 +34,7 @@
     <section class="mb-8">
       <h2 class="text-xl font-semibold mb-4">Gemeinnützigkeit</h2>
       <p class="mb-4">
-        Die Clothing-Donation gGmbH ist durch Bescheid des Finanzamts Berlin 
+        Die Clothing-Donation e.V. ist durch Bescheid des Finanzamts Berlin 
         vom 01.01.2025 als gemeinnützige Organisation anerkannt.
         Steuernummer: 27/123/45678
       </p>
@@ -44,7 +44,7 @@
       <h2 class="text-xl font-semibold mb-4">Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h2>
       <p class="mb-4">
         Max Mustermann<br>
-        Clothing-Donation gGmbH<br>
+        Clothing-Donation e.V.<br>
         Spendengasse 123<br>
         10115 Berlin
       </p>
