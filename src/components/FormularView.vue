@@ -1,6 +1,10 @@
 <template>
   <div class="max-w-2xl mx-auto p-8">
-    <form @submit.prevent="validateAndSubmit" class="space-y-8">
+    <form 
+      @submit.prevent="validateAndSubmit" 
+      class="space-y-8"
+      novalidate
+    >
       <!-- Persönliche Daten -->
       <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
         <h2 class="text-lg font-medium text-gray-900 mb-4">Persönliche Daten</h2>
@@ -18,7 +22,8 @@
               :id="field.id"
               v-model="formData[field.id]"
               :placeholder="field.placeholder"
-              :required="field.required"
+              required
+              @invalid="setCustomMessage($event, field.label)"
               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-4 py-2"
             >
           </div>
@@ -175,7 +180,7 @@
               <div class="flex">
                 <div class="flex-shrink-0">
                   <svg class="h-5 w-5 text-indigo-400" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zm-2 5a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
                   </svg>
                 </div>
                 <div class="ml-3">
@@ -194,6 +199,7 @@
                   v-model="formData.pickupStreet"
                   required
                   placeholder="Beispielstraße 123"
+                  @invalid="setCustomMessage($event, 'Straße & Hausnummer')"
                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-4 py-2"
                 >
               </div>
@@ -209,6 +215,7 @@
                     required
                     placeholder="12345"
                     pattern="[0-9]{5}"
+                    @invalid="setCustomMessage($event, 'PLZ', true)"
                     @input="handlePlzInput"
                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-4 py-2"
                   >
@@ -223,6 +230,7 @@
                     v-model="formData.pickupCity"
                     required
                     placeholder="Berlin"
+                    @invalid="setCustomMessage($event, 'Stadt')"
                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-4 py-2"
                   >
                 </div>
@@ -285,6 +293,7 @@ const locationField = computed(() =>
   formFields.value.find(field => field.id === 'location')
 )
 
+// Variable to store the allowed times
 const allowedTimes = [
   '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', 
   '10:30', '11:00', '11:30', '12:00', '12:30', '13:00',
@@ -292,11 +301,7 @@ const allowedTimes = [
   '16:30', '17:00', '17:30', '18:00'
 ]
 
-const validateTime = (time) => {
-  return allowedTimes.includes(time)
-}
-
-// First, add this helper function to extract PLZ regions and create a mapping
+// Function to extract PLZ regions and create a mapping
 const getPlzRegion = (plz) => plz.substring(0, 2)
 
 const abgabestellenPLZ = {
@@ -306,7 +311,7 @@ const abgabestellenPLZ = {
   '50': 'Köln'
 }
 
-// Add this function to check for nearby locations
+// Function to check for nearby locations
 const checkNearbyLocation = (plz) => {
   const region = getPlzRegion(plz)
   if (abgabestellenPLZ[region]) {
@@ -330,33 +335,57 @@ const handlePlzInput = (event) => {
   }
 }
 
-const validateAndSubmit = () => {
-  // Validate based on handovertype
-  if (formData.value.handovertype) {
-    // Validate pickup address fields when handovertype is true
-    if (!formData.value.pickupStreet || !formData.value.pickupZip || !formData.value.pickupCity) {
-      alert('Bitte füllen Sie alle Adressfelder aus')
-      return
-    }
-    if (!formData.value.pickupZip.match(/^[0-9]{5}$/)) {
-      alert('Bitte geben Sie eine gültige PLZ ein (5 Ziffern)')
-      return
-    }
-    // Clear location field
-    formData.value.location = ''
+const setCustomMessage = (event, fieldName, isZip = false) => {
+  const input = event.target
+  if (!input.value) {
+    input.setCustomValidity(`Bitte füllen Sie das Feld '${fieldName}' aus`)
+  } else if (isZip && !input.value.match(/^[0-9]{5}$/)) {
+    input.setCustomValidity('Bitte geben Sie eine gültige PLZ ein (5 Ziffern)')
   } else {
-    // Validate location field when handovertype is false
-    if (!formData.value.location) {
-      alert('Bitte wählen Sie einen Übergabeort aus')
-      return
+    input.setCustomValidity('')
+  }
+}
+
+const validateAndSubmit = () => {
+  // Reset any previous custom validity messages
+  const form = document.querySelector('form')
+  const inputs = form.querySelectorAll('input, select')
+  inputs.forEach(input => input.setCustomValidity(''))
+
+  let isValid = true
+
+  // Validate required fields
+  inputs.forEach(input => {
+    if (input.required && !input.value) {
+      const label = input.previousElementSibling?.textContent?.trim() || input.id
+      input.setCustomValidity(`Bitte füllen Sie das Feld '${label}' aus`)
+      isValid = false
     }
-    // Clear pickup address fields
-    formData.value.pickupStreet = ''
-    formData.value.pickupZip = ''
-    formData.value.pickupCity = ''
+  })
+
+  // Validate clothing type
+  if (!formData.value[clothingTypeField.value.id]?.length) {
+    const input = document.getElementById(clothingTypeField.value.id)
+    input?.setCustomValidity('Bitte wählen Sie mindestens eine Kleidungsart aus')
+    isValid = false
   }
 
-  // Continue with form submission
+  // Additional validation for ZIP code pattern
+  const zipInput = document.getElementById('pickupZip')
+  if (zipInput && formData.value.handovertype) {
+    if (!zipInput.value.match(/^[0-9]{5}$/)) {
+      zipInput.setCustomValidity('Bitte geben Sie eine gültige PLZ ein (5 Ziffern)')
+      isValid = false
+    }
+  }
+
+  if (!isValid) {
+    // If validation fails, show custom messages
+    form.reportValidity()
+    return
+  }
+
+  // If validation passes, proceed with form submission
   router.push({
     name: 'Success',
     query: { 

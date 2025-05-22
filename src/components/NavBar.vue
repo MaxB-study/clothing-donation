@@ -1,6 +1,6 @@
 <template>
   <nav class="bg-gray-800 p-4">
-    <div class="container mx-auto">
+    <div class="max-w-none w-full px-4">
       <div class="flex justify-between items-center">
         <!-- Logo and Title -->
         <div class="flex items-center">
