@@ -5,6 +5,7 @@ import SuccessView from '../components/SuccessView.vue';
 import ImpressumView from '../components/ImpressumView.vue';
 import DataProtectionView from '../components/DataProtectionView.vue';
 import CompanyDescriptionView from '../components/CompanyDescriptionView.vue';
+import TabletFormularView from '../components/TabletFormularView.vue';
 
 const routes = [
   {
@@ -36,6 +37,11 @@ const routes = [
     path: '/ueber-uns',
     name: 'UeberUns',
     component: CompanyDescriptionView,
+  },
+  {
+    path: '/tablet',
+    name: 'Tablet',
+    component: TabletFormularView,
   }
 ];
 
